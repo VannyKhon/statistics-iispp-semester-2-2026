@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Statistics - IISPP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#2A0A17',
+                            darker: '#333333',
+                            mid: '#6E1738',
+                            soft: '#8A2B4C',
+                            gold: '#B8B38A',
+                            pale: '#F4F0E8',
+                            bg: '#FBF8F3',
+                            lemon: '#F8CD5C',
+                            avocado: '#7CC2AE',
+                            peach: '#FFAAA0'
+                        },
+                        fontFamily: {
+                            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                            serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth content transitions */
+        .content-transition {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .content-hidden {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(184, 179, 138, 0.4);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(110, 23, 56, 0.6);
+        }
+
+        /* Dashboard specific styles */
+        .dashboard-pane { display: none; }
+        .dashboard-pane.active { display: block; animation: fadeIn 0.4s ease; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-area { width: 100%; height: 160px; }
+        .ca { stroke: rgba(42, 10, 23, 0.1); stroke-width: 0.8; }
+        .cg { stroke: rgba(42, 10, 23, 0.05); stroke-width: 0.5; }
+        .cl { fill: none; stroke: #6E1738; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .cf { fill: url(#ag); opacity: 0.12; }
+        .cp { fill: #FBF8F3; stroke: #6E1738; stroke-width: 2; }
+        .ct { font-family: system-ui, sans-serif; font-size: 9px; fill: #8A2B4C; }
+    </style>
+</head>
+<body class="bg-brand-bg font-sans text-brand-dark antialiased selection:bg-brand-mid selection:text-white relative min-h-screen overflow-x-hidden">
+
+    <!-- Abstract Statistical Artwork: Isometric Probability Dice -->
+    <div id="bg-artwork" class="fixed top-0 right-0 w-full lg:w-[60%] h-screen z-0 pointer-events-none transition-opacity duration-500 ease-in-out opacity-100">
+        <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 50,850 C 250,550 650,350 950,150" fill="none" stroke="#EADBD9" stroke-width="1.5" opacity="0.6" stroke-dasharray="12 12"/>
+            <path d="M 200,1050 C 400,650 800,550 1100,250" fill="none" stroke="#E6E0D3" stroke-width="1.5" opacity="0.6"/>
+            <g stroke="#EADBD9" stroke-width="1" opacity="0.6">
+                <line x1="0" y1="200" x2="1000" y2="777"/>
+                <line x1="0" y1="400" x2="1000" y2="977"/>
+                <line x1="0" y1="600" x2="1000" y2="1177"/>
+                <line x1="0" y1="500" x2="1000" y2="-77"/>
+                <line x1="0" y1="700" x2="1000" y2="123"/>
+            </g>
+            <!-- Dice 3 (Avocado) -->
+            <g transform="translate(350, 700) scale(0.7) rotate(-15)">
+                <polygon points="0,-70 100,-12 0,45 -100,-12" fill="#6EE2DA" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="-100,-12 0,45 0,160 -100,103" fill="#4ECDC4" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="100,-12 0,45 0,160 100,103" fill="#41ABA3" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <g fill="#6B6E6D">
+                    <g transform="matrix(1, 0.575, -1, 0.575, 0, -12.5)"><circle cx="-20" cy="-20" r="10"/><circle cx="20" cy="20" r="10"/></g>
+                    <g transform="matrix(1, 0.57, 0, 1.15, -50, 74)"><circle cx="-22" cy="-28" r="10"/><circle cx="-22" cy="0" r="10"/><circle cx="-22" cy="28" r="10"/><circle cx="22" cy="-28" r="10"/><circle cx="22" cy="0" r="10"/><circle cx="22" cy="28" r="10"/></g>
+                    <g transform="matrix(1, -0.57, 0, 1.15, 50, 74)"><circle cx="-22" cy="-22" r="10"/><circle cx="0" cy="0" r="10"/><circle cx="22" cy="22" r="10"/></g>
+                </g>
+            </g>
+            <!-- Dice 1 (Peach) -->
+            <g transform="translate(700, 500) scale(1.2) rotate(10)">
+                <polygon points="0,-70 100,-12 0,45 -100,-12" fill="#FF8E8E" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="-100,-12 0,45 0,160 -100,103" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="100,-12 0,45 0,160 100,103" fill="#E05959" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <g fill="#6B6E6D">
+                    <g transform="matrix(1, 0.575, -1, 0.575, 0, -12.5)"><circle cx="-24" cy="-24" r="10"/><circle cx="24" cy="-24" r="10"/><circle cx="-24" cy="24" r="10"/><circle cx="24" cy="24" r="10"/><circle cx="0" cy="0" r="10"/></g>
+                    <g transform="matrix(1, 0.57, 0, 1.15, -50, 74)"><circle cx="-24" cy="-24" r="10"/><circle cx="0" cy="0" r="10"/><circle cx="24" cy="24" r="10"/></g>
+                    <g transform="matrix(1, -0.57, 0, 1.15, 50, 74)"><circle cx="-24" cy="-24" r="10"/><circle cx="24" cy="-24" r="10"/><circle cx="-24" cy="24" r="10"/><circle cx="24" cy="24" r="10"/></g>
+                </g>
+            </g>
+            <!-- Dice 2 (Lemon) -->
+            <g transform="translate(850, 250) scale(0.9) rotate(-5)">
+                <polygon points="0,-70 100,-12 0,45 -100,-12" fill="#FFF099" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="-100,-12 0,45 0,160 -100,103" fill="#FFE66D" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <polygon points="100,-12 0,45 0,160 100,103" fill="#E6CF62" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <g fill="#6B6E6D">
+                    <g transform="matrix(1, 0.575, -1, 0.575, 0, -12.5)"><circle cx="0" cy="0" r="12"/></g>
+                    <g transform="matrix(1, 0.57, 0, 1.15, -50, 74)"><circle cx="-24" cy="-24" r="10"/><circle cx="24" cy="-24" r="10"/><circle cx="-24" cy="24" r="10"/><circle cx="24" cy="24" r="10"/></g>
+                    <g transform="matrix(1, -0.57, 0, 1.15, 50, 74)"><circle cx="-22" cy="-22" r="10"/><circle cx="22" cy="22" r="10"/></g>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <!-- ================= PUBLIC SITE CONTAINER ================= -->
+    <div id="public-container" class="relative z-10 flex flex-col p-8 md:p-16 lg:p-24 max-w-3xl min-h-screen content-transition">
+        
+        <!-- Home View -->
+        <div id="home-view" class="w-full flex-grow flex flex-col justify-center content-transition py-12">
+            <div>
+                <div class="mb-12 md:mb-16">
+                    <p class="text-xs font-bold tracking-widest uppercase text-brand-mid">IISPP</p>
+                    <p class="text-[10px] tracking-[0.2em] uppercase text-brand-soft mt-1">Dept. of International Relations</p>
+                </div>
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-serif font-bold tracking-tight mb-4 text-brand-dark leading-none">
+                        <span class="block text-brand-mid">APPLIED</span>
+                        <span class="block">STATISTICS</span>
+                    </h1>
+                    <p class="text-xs uppercase tracking-[0.2em] font-medium text-brand-dark mb-8">Instructor: Vanny Khon</p>
+                    <p class="text-base md:text-lg leading-relaxed text-brand-dark/80">
+                        This course focuses on the practical application of statistical methods to real-world data in international relations. We move beyond theory to hands-on analysis, interpretation, and the effective communication of data-driven insights.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex flex-col space-y-6 mt-12 md:mt-16">
+                <button onclick="openPage('announcements')" class="w-max text-left text-sm md:text-base tracking-[0.2em] uppercase font-bold text-brand-dark hover:text-brand-mid transition-colors flex items-center gap-4 group">
+                    <span class="w-8 h-[2px] bg-brand-mid transition-all duration-300 group-hover:w-12"></span> Announcements
+                </button>
+                <button onclick="openPage('materials')" class="w-max text-left text-sm md:text-base tracking-[0.2em] uppercase font-bold text-brand-dark hover:text-brand-mid transition-colors flex items-center gap-4 group">
+                    <span class="w-8 h-[2px] bg-brand-mid transition-all duration-300 group-hover:w-12"></span> Materials
+                </button>
+                <a href="https://script.google.com/macros/s/AKfycbxiPc0psSe4o0NJFfhsscfyTVCQ2VeNLQV0CPKVwUe2MClIi8iAnFJtSC9_B63Ybrgr/exec" target="_blank" class="w-max text-left text-sm md:text-base tracking-[0.2em] uppercase font-bold text-brand-dark hover:text-brand-mid transition-colors flex items-center gap-4 group mt-4">
+                    <span class="w-8 h-[2px] bg-brand-mid transition-all duration-300 group-hover:w-12"></span>
+                    Attendance
+                </a>
+                
+                <a href="https://script.google.com/macros/s/AKfycbxLXBUs8FFvQdkNmXlqdt8vdwDNtK2Ta249BM0DUvFxEO9ZUGUQHK3h6qn3BYNdHpvysw/exec" target="_blank" class="w-max text-left text-sm md:text-base tracking-[0.2em] uppercase font-bold text-brand-mid hover:text-brand-dark transition-colors flex items-center gap-4 group mt-4">
+                    <span class="w-8 h-[2px] bg-brand-lemon transition-all duration-300 group-hover:w-12"></span> 
+                    Learning
+                </a>
+            </nav>
+        </div>
+
+        <!-- Subpage View -->
+        <div id="subpage-view" class="w-full hidden content-hidden content-transition pt-8 pb-12">
+            <button onclick="goHome()" class="mb-12 text-brand-mid hover:text-brand-dark font-bold tracking-[0.15em] text-xs uppercase transition-colors duration-300 w-fit flex items-center gap-3 group">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 transform transition-transform group-hover:-translate-x-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                </svg>
+                Back to Home
+            </button>
+            <div class="w-full">
+                <h2 id="page-title" class="font-serif text-3xl md:text-4xl mb-12 text-brand-mid font-bold leading-tight"></h2>
+                <div id="list-container" class="flex flex-col border-t border-brand-dark/15">
+                    <!-- Content injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- PUBLIC SITE LOGIC ---
+        const pageData = {
+            announcements: {
+                title: 'Announcements',
+                items: []
+            },
+            materials: {
+                title: 'Course Materials',
+                items: []
+            },
+            work: {
+                title: 'Assignments & Projects',
+                items: [
+                    { title: 'Problem Set 1: Exploratory Data Analysis', meta: 'Submit via the course portal.', date: 'Due: Next Fri' },
+                    { title: 'Final Project Proposal', meta: '1-page outline of your research question and intended dataset.', date: 'Due: Week 4' }
+                ]
+            }
+        };
+
+        const publicContainer = document.getElementById('public-container');
+        const homeView = document.getElementById('home-view');
+        const subpageView = document.getElementById('subpage-view');
+        const pageTitle = document.getElementById('page-title');
+        const listContainer = document.getElementById('list-container');
+        const bgArtwork = document.getElementById('bg-artwork');
+
+        function hideAllPublicViews() {
+            homeView.classList.add('hidden', 'content-hidden');
+            subpageView.classList.add('hidden', 'content-hidden');
+        }
+
+        function openPage(pageKey) {
+            const data = pageData[pageKey];
+            if (!data) return;
+
+            homeView.classList.add('content-hidden');
+            if (bgArtwork) bgArtwork.classList.add('opacity-0');
+
+            setTimeout(() => {
+                hideAllPublicViews();
+                
+                pageTitle.innerText = data.title;
+                let html = '';
+                data.items.forEach(item => {
+                    html += `
+                    <div class="py-6 border-b border-brand-dark/10 group flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-6 hover:bg-brand-pale/30 transition-colors px-4 -mx-4 rounded-sm">
+                        <div class="flex-grow">
+                            <a href="javascript:void(0)" class="block font-serif text-lg md:text-xl text-brand-dark group-hover:text-brand-mid transition-colors">
+                                ${item.title}
+                            </a>
+                            ${item.meta ? `<p class="text-sm text-brand-dark/70 mt-1.5 font-sans">${item.meta}</p>` : ''}
+                        </div>
+                        ${item.date ? `<div class="shrink-0 text-xs font-sans font-medium tracking-widest uppercase text-brand-soft sm:text-right mt-2 sm:mt-0">${item.date}</div>` : ''}
+                    </div>
+                    `;
+                });
+                listContainer.innerHTML = html;
+
+                subpageView.classList.remove('hidden');
+                void subpageView.offsetWidth;
+                subpageView.classList.remove('content-hidden');
+                
+                // Scroll to top to ensure content is visible
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
+        }
+
+        function goHome() {
+            subpageView.classList.add('content-hidden');
+
+            setTimeout(() => {
+                hideAllPublicViews();
+                homeView.classList.remove('hidden');
+                if (bgArtwork) bgArtwork.classList.remove('opacity-0');
+                
+                void homeView.offsetWidth;
+                homeView.classList.remove('content-hidden');
+                
+                // Scroll to top to ensure hero is visible
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
+        }
+    </script>
+</body>
+</html>
